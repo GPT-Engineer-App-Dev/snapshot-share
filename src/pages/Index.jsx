@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,15 @@ const Index = () => {
     },
   ];
 
+  const [likedPosts, setLikedPosts] = useState({});
+
+  const toggleLike = (postId) => {
+    setLikedPosts((prevLikedPosts) => ({
+      ...prevLikedPosts,
+      [postId]: !prevLikedPosts[postId],
+    }));
+  };
+
   return (
     <div className="space-y-4">
       {posts.map((post) => (
@@ -33,8 +43,8 @@ const Index = () => {
             <img src={post.photo} alt="Post" className="mx-auto object-cover w-full h-[400px]" />
             <p className="mt-2">{post.caption}</p>
             <div className="flex justify-around mt-4">
-              <Button variant="ghost" size="icon">
-                <Heart className="h-5 w-5" />
+              <Button variant="ghost" size="icon" onClick={() => toggleLike(post.id)}>
+                <Heart className={`h-5 w-5 ${likedPosts[post.id] ? 'text-red-500' : ''}`} />
               </Button>
               <Button variant="ghost" size="icon">
                 <MessageCircle className="h-5 w-5" />
